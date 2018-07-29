@@ -57,10 +57,10 @@ def synthesize_text(text):
 #         out.write(response.audio_content)
 #         print('Audio content written to file "output.mp3"')
 
+infile = sys.argv[1]
+outfile = os.path.splitext(infile)[0] + ".mp3"
 
-mp3data = synthesize_text("This is a test")
+mp3data = synthesize_text(open(infile, 'r').read())
 
-with open("output.mp3", "wb") as fp:
+with open(outfile, "wb") as fp:
     fp.write(mp3data)
-
-
