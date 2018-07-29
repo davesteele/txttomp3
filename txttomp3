@@ -1,12 +1,32 @@
 #!/usr/bin/python
 
 from google.oauth2 import service_account
+from contextlib import contextmanager
+import datetime
+import time
 import os
 import sys
+
 
 for entry in os.listdir('.'):
     if entry[-5:] == ".json":
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = entry
+
+
+@contextmanager
+def rate_limit(*runtimes):
+    """Limit the minimum time a task will take"""
+
+    minruntime = max(runtimes)
+    start = datetime.datetime.now()
+
+    yield None
+
+    duration = datetime.datetime.now() - start
+    sleeptime = minruntime - duration.total_seconds()
+
+    if sleeptime > 0:
+        time.sleep(sleeptime)
 
 
 def synthesize_text(text):
