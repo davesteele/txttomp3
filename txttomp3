@@ -6,6 +6,9 @@ import datetime
 import time
 import os
 import sys
+from pydub import AudioSegment
+import shutil
+import tempfile
 
 
 for entry in os.listdir('.'):
@@ -60,7 +63,28 @@ def synthesize_text(text):
 infile = sys.argv[1]
 outfile = os.path.splitext(infile)[0] + ".mp3"
 
-mp3data = synthesize_text(open(infile, 'r').read())
+shutil.copyfile("null.mp3", outfile)
 
-with open(outfile, "wb") as fp:
-    fp.write(mp3data)
+lines = []
+for line in open(infile, 'r').read().split('\n'):
+    tmpfl = tempfile.mktemp(suffix=".mp3")
+
+    print "saving %s to %s" % (line, tmpfl)
+
+    mp3data = synthesize_text(line)
+
+    with open(tmpfl, 'wb') as fp:
+        fp.write(mp3data)
+
+    oldmp3 = AudioSegment.from_file(outfile)
+    newmp3 = AudioSegment.from_file(tmpfl)
+
+    allmp3 = oldmp3 + newmp3
+    allmp3.export(outfile, format="mp3")
+
+    os.remove(tmpfl)
+
+# mp3data = synthesize_text(open(infile, 'r').read())
+# 
+# with open(outfile, "wb") as fp:
+#     fp.write(mp3data)
