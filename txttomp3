@@ -9,7 +9,8 @@ import sys
 from pydub import AudioSegment
 import shutil
 import tempfile
-
+import subprocess
+import shlex
 
 for entry in os.listdir('.'):
     if entry[-5:] == ".json":
@@ -41,10 +42,6 @@ def synthesize_text(text):
 
     # Note: the voice can also be specified by name.
     # Names of voices can be retrieved with client.list_voices().
-#     voice = texttospeech.types.VoiceSelectionParams(
-#         language_code='en-US',
-#         ssml_gender=texttospeech.enums.SsmlVoiceGender.FEMALE)
-
     voice = texttospeech.types.VoiceSelectionParams(name="en-US-Wavenet-C",
         language_code='en-US',)
 
@@ -55,17 +52,10 @@ def synthesize_text(text):
 
     return response.audio_content
 
-#     # The response's audio_content is binary.
-#     with open('output.mp3', 'wb') as out:
-#         out.write(response.audio_content)
-#         print('Audio content written to file "output.mp3"')
-
 infile = sys.argv[1]
 outfile = os.path.splitext(infile)[0] + ".mp3"
 
-shutil.copyfile("null.mp3", outfile)
-
-lines = []
+audios = []
 for line in open(infile, 'r').read().split('\n'):
     tmpfl = tempfile.mktemp(suffix=".mp3")
 
@@ -76,15 +66,15 @@ for line in open(infile, 'r').read().split('\n'):
     with open(tmpfl, 'wb') as fp:
         fp.write(mp3data)
 
-    oldmp3 = AudioSegment.from_file(outfile)
-    newmp3 = AudioSegment.from_file(tmpfl)
+    audios.append(tmpfl)
 
-    allmp3 = oldmp3 + newmp3
-    allmp3.export(outfile, format="mp3")
+lstfile = tempfile.mktemp(suffix=".list")
 
-    os.remove(tmpfl)
+with open(lstfile, 'w') as fp:
+    fp.write('\n'.join(["file '%s'" % x for x in audios]))
 
-# mp3data = synthesize_text(open(infile, 'r').read())
-# 
-# with open(outfile, "wb") as fp:
-#     fp.write(mp3data)
+cmd = "ffmpeg -y -f concat -safe 0 -i %s -c copy %s" % (lstfile, outfile)
+print cmd
+subprocess.call(shlex.split(cmd))
+
+[os.remove(x) for x in audios + [lstfile]]
