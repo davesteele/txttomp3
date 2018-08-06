@@ -50,12 +50,14 @@ def synthesize_text(text):
 
     return response.audio_content
 
+tmpd = tempfile.TemporaryDirectory()
+
 infile = sys.argv[1]
 outfile = os.path.splitext(infile)[0] + ".mp3"
 
 audios = []
 for line in open(infile, 'r').read().split('\n'):
-    tmpfl = tempfile.mktemp(suffix=".mp3")
+    tmpfl = tempfile.mktemp(suffix=".mp3", dir=tmpd.name)
 
     print "saving %s to %s" % (line, tmpfl)
 
@@ -66,7 +68,7 @@ for line in open(infile, 'r').read().split('\n'):
 
     audios.append(tmpfl)
 
-lstfile = tempfile.mktemp(suffix=".list")
+lstfile = tempfile.mktemp(suffix=".list", dir=tmpd)
 
 with open(lstfile, 'w') as fp:
     fp.write('\n'.join(["file '%s'" % x for x in audios]))
@@ -75,4 +77,3 @@ cmd = "ffmpeg -y -f concat -safe 0 -i %s -c copy %s" % (lstfile, outfile)
 print cmd
 subprocess.call(shlex.split(cmd))
 
-[os.remove(x) for x in audios + [lstfile]]
