@@ -31,7 +31,7 @@ def rate_limit(*runtimes):
         time.sleep(sleeptime)
 
 
-def synthesize_text(text):
+def synthesize_text(name, language_code, text):
     """Synthesizes speech from the input string of text."""
     from google.cloud import texttospeech
     client = texttospeech.TextToSpeechClient()
@@ -40,8 +40,10 @@ def synthesize_text(text):
 
     # Note: the voice can also be specified by name.
     # Names of voices can be retrieved with client.list_voices().
-    voice = texttospeech.types.VoiceSelectionParams(name="en-US-Wavenet-C",
-        language_code='en-US',)
+    voice = texttospeech.types.VoiceSelectionParams(
+        name=name,
+        language_code=language_code,
+    )
 
     audio_config = texttospeech.types.AudioConfig(
         audio_encoding=texttospeech.enums.AudioEncoding.MP3)
@@ -61,7 +63,7 @@ for line in open(infile, 'r').read().split('\n'):
 
     print "saving %s to %s" % (line, tmpfl)
 
-    mp3data = synthesize_text(line)
+    mp3data = synthesize_text("en-US-Wavenet-C", "en-US", line)
 
     with open(tmpfl, 'wb') as fp:
         fp.write(mp3data)
