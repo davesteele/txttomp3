@@ -115,7 +115,7 @@ def main():
 
         print "saving %s to %s" % (line, tmpfl)
 
-        mp3data = synthesize_text("en-US-Wavenet-C", "en-US", line)
+        mp3data = synthesize_text(args.speaker, args.language_code, line)
 
         with open(tmpfl, 'wb') as fp:
             fp.write(mp3data)
