@@ -10,6 +10,7 @@ import subprocess
 import shlex
 import argparse
 import shutil
+import atexit
 
 import cache
 
@@ -109,6 +110,7 @@ def main():
     cache.set_base_dir("/var/cache/txttomp3")
 
     tmpd = tempfile.mkdtemp()
+    atexit.register(shutil.rmtree, tmpd)
 
     infile = args.text_file
     outfile = os.path.splitext(infile)[0] + ".mp3"
@@ -135,7 +137,6 @@ def main():
     print cmd
     subprocess.call(shlex.split(cmd))
 
-    shutil.rmtree(tmpd)
 
 if __name__ == "__main__":
     main()
