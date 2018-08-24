@@ -2,6 +2,7 @@
 
 import hashlib
 import os
+from functools import wraps
 
 basedir = "."
 
@@ -43,6 +44,7 @@ def get_cache(*keys):
 
 
 def cache(f):
+    @wraps(f)
     def wrapper(*args, **kwargs):
         cache_data = get_cache(*args)
         if cache_data is not None:
