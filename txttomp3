@@ -11,6 +11,8 @@ import shlex
 import argparse
 import shutil
 
+import cache
+
 
 @contextmanager
 def rate_limit(*runtimes):
@@ -28,6 +30,7 @@ def rate_limit(*runtimes):
         time.sleep(sleeptime)
 
 
+@cache.cache
 def synthesize_text(name, language_code, text):
     """Synthesizes speech from the input string of text."""
     from google.cloud import texttospeech
@@ -102,6 +105,8 @@ def main():
     args = parse_args()
 
     get_credentials(args.json_file)
+
+    cache.set_base_dir("/var/cache/txttomp3")
 
     tmpd = tempfile.mkdtemp()
 
