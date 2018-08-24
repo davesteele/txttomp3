@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-from google.oauth2 import service_account
 from contextlib import contextmanager
 import datetime
 import time
