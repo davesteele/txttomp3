@@ -4,6 +4,7 @@ from contextlib import contextmanager
 import datetime
 import time
 import os
+import sys
 import tempfile
 import subprocess
 import shlex
@@ -116,8 +117,16 @@ def main():
     infile = args.text_file
     outfile = os.path.splitext(infile)[0] + ".mp3"
 
+    lines = open(infile, 'r').read().split('\n')
+
+    for line in lines:
+        if len(line) > 4800:
+            print "Error: paragraph too long\n\n"
+            print line
+            sys.exit(1)
+
     audios = []
-    for line in open(infile, 'r').read().split('\n'):
+    for line in lines:
         tmpfl = tempfile.mktemp(suffix=".mp3", dir=tmpd)
 
         # limit ourselves to 250 calls/min, and 100000 chars/min
