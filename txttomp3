@@ -4,7 +4,6 @@ from contextlib import contextmanager
 import datetime
 import time
 import os
-import sys
 import tempfile
 import subprocess
 import shlex
@@ -69,7 +68,8 @@ def parse_args():
 
     parser.add_argument(
         "-s", "--speaker",
-        help="The Google Text-to-Speech speaker to use (default: en-US-Wavenet-C)",
+        help="The Google Text-to-Speech speaker to use "\
+             "(default: en-US-Wavenet-C)",
         type=str,
         default="en-US-Wavenet-C",
     )
@@ -100,7 +100,6 @@ def get_credentials(json_arg):
         for entry in os.listdir('.'):
             if entry[-5:] == ".json":
                 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = entry
-
 
 
 def main():
