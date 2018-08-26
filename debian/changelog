@@ -1,5 +1,5 @@
-txttomp3 (1.0-1) UNRELEASED; urgency=low
+txttomp3 (1.0-1) txttomp3; urgency=low
 
   * Initial release.
 
- -- David Steele <dsteele@gmail.com>  Sun, 26 Aug 2018 00:28:06 -0400
+ -- David Steele <dsteele@gmail.com>  Sun, 26 Aug 2018 09:25:45 -0400
