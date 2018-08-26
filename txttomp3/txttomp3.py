@@ -69,7 +69,7 @@ def parse_args():
 
     parser.add_argument(
         "-s", "--speaker",
-        help="The Google Text-to-Speech speaker to use "\
+        help="The Google Text-to-Speech speaker to use "
              "(default: en-US-Wavenet-C)",
         type=str,
         default="en-US-Wavenet-C",
@@ -121,8 +121,8 @@ def main():
 
     for line in lines:
         if len(line) > 4800:
-            print "Error: paragraph too long\n\n"
-            print line
+            print "Error: paragraph too long\n\n"  # noqa
+            print line                             # noqa
             sys.exit(1)
 
     audios = []

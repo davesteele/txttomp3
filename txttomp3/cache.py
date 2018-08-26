@@ -6,6 +6,7 @@ from functools import wraps
 
 basedir = "."
 
+
 def set_base_dir(dir):
     global basedir
     basedir = dir

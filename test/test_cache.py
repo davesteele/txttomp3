@@ -1,7 +1,7 @@
 
 import pytest
 import os
-import cache
+from txttomp3 import cache
 
 
 @pytest.fixture
