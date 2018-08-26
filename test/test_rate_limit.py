@@ -2,29 +2,28 @@ import pytest
 from time import sleep
 from collections import namedtuple
 from timeit import default_timer as timer
+
 from txttomp3.txttomp3 import rate_limit
 
 
 @pytest.mark.parametrize("mintime,maxtime,sleeptime,args", [
-        (0, 0.001, 0, [0]),
-        (.004, .006, 0, [.005]),
-        (.004, .006, 0, [.005, .002]),
-        (.004, .006, 0, [.002, .005]),
-        (.004, 0.006, .005, [0]),
-        (.004, 0.006, .005, [.005]),
-        (.004, 0.006, .003, [.005]),
+        (0, 1, 0, [0]),
+        (4, 6, 0, [5]),
+        (4, 6, 0, [5, 2]),
+        (4, 6, 0, [2, 5]),
+        (4, 6, 5, [0]),
+        (4, 6, 5, [5]),
+        (4, 6, 3, [5]),
+        (4, 6, 5, [3]),
     ]
 )
 def test_rate_limit(mintime, maxtime, sleeptime, args):
     start = timer()
 
-    with rate_limit(*args):
-        sleep(sleeptime)
+    with rate_limit(*[x/1000.0 for x in args]):
+        sleep(sleeptime/1000.0)
 
-    end = timer()
-    duration = end - start
+    duration = (timer() - start) * 1000
 
     assert(duration > mintime)
     assert(duration < maxtime)
-
-
