@@ -1,0 +1,20 @@
+Source: txttomp3
+Section: sound
+Priority: optional
+Maintainer: David Steele <dsteele@gmail.com>
+Build-Depends: debhelper (>=11~),
+               dh-python,
+               python-all,
+               python-setuptools,
+#               python3-all,
+               python-pytest,
+Standards-Version: 4.1.4
+Homepage: https://github.com/davesteele/txttomp3
+
+Package: txttomp3
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${python:Depends}
+Description: Convert text files to computer voice mp3 files
+ This utility uses the Google Text-To-Speech engine to convert
+ text to speech.
