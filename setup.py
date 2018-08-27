@@ -18,6 +18,7 @@ setup(
     url = "https://github.com/davesteele/txttomp3",
     packages=find_packages(),
     long_description=read('README.md'),
+    long_description_content_type="text/markdown",
     entry_points={"console_scripts": ["txttomp3 = txttomp3.txttomp3:main"]},
     data_files=[("/var/cache/txttomp3", [])],
     python_requires=">=2.7,<3.0",
