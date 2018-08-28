@@ -22,6 +22,7 @@ setup(
     entry_points={"console_scripts": ["txttomp3 = txttomp3.txttomp3:main"]},
     data_files=[("/var/cache/txttomp3", [])],
     python_requires=">=2.7,<3.0",
+    setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     classifiers=[
     ],
