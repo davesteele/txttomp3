@@ -11,6 +11,7 @@ import shlex
 import argparse
 import shutil
 import atexit
+from mutagen import ID3, TIT2
 
 import cache
 
@@ -145,6 +146,10 @@ def main():
 
     cmd = "ffmpeg -y -f concat -safe 0 -i %s -c copy %s" % (lstfile, outfile)
     subprocess.call(shlex.split(cmd), stdout=devnull, stderr=subprocess.STDOUT)
+
+    tags = ID3(outfile)
+    tags["TIT2"] = TIT2(encoding=3, text=os.path.splitext(outfile)[0])
+    tags.save(fname)
 
 
 if __name__ == "__main__":
