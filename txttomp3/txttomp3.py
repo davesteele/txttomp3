@@ -149,7 +149,7 @@ def main():
 
     tags = ID3(outfile)
     tags["TIT2"] = TIT2(encoding=3, text=os.path.splitext(outfile)[0])
-    tags.save(fname)
+    tags.save()
 
 
 if __name__ == "__main__":
