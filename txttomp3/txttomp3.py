@@ -11,7 +11,7 @@ import shlex
 import argparse
 import shutil
 import atexit
-from mutagen import ID3, TIT2
+from mutagen.id3 import ID3, TIT2
 
 import cache
 
