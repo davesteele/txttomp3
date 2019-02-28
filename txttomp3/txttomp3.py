@@ -128,16 +128,16 @@ def main():
 
     audios = []
     for line in lines:
-        tmpfl = tempfile.mktemp(suffix=".mp3", dir=tmpd)
-
         # limit ourselves to 250 calls/min, and 100000 chars/min
         with rate_limit(60./250, 60./100000 * len(line)):
+            tmpfl = tempfile.mktemp(suffix=".mp3", dir=tmpd)
+
             mp3data = synthesize_text(args.speaker, args.language_code, line)
 
-        with open(tmpfl, 'wb') as fp:
-            fp.write(mp3data)
+            with open(tmpfl, 'wb') as fp:
+                fp.write(mp3data)
 
-        audios.append(tmpfl)
+            audios.append(tmpfl)
 
     lstfile = tempfile.mktemp(suffix=".list", dir=tmpd)
 
