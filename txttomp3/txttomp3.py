@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 from contextlib import contextmanager
 import datetime
@@ -13,7 +13,7 @@ import shutil
 import atexit
 from mutagen.id3 import ID3, TIT2
 
-import cache
+from . import cache
 
 devnull = open(os.devnull, 'w')
 
@@ -122,8 +122,8 @@ def main():
 
     for line in lines:
         if len(line) > 4800:
-            print "Error: paragraph too long\n\n"  # noqa
-            print line                             # noqa
+            print("Error: paragraph too long\n\n")  # noqa
+            print(line)                             # noqa
             sys.exit(1)
 
     audios = []
